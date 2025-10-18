@@ -101,22 +101,34 @@
         </main>
         <script>
             document.getElementById('start-button').addEventListener('click', function() {
+                document.getElementById('start-button').style.display = 'none';
+                document.getElementById('game-description').style.display = 'none';
+                document.getElementById('how-to-play').style.display = 'none';
+
                 document.body.style.backgroundColor = '#ffffff';
                 function startGame() {
                     document.getElementById('start-button').style.display = 'remove';
                     document.getElementById('game-description').style.display = 'remove';
                     document.getElementById('how-to-play').style.display = 'remove';
-                    document.getElementById('start-game').style.display = 'remove';
+                   
                     const gameArea = document.createElement('div');
                     gameArea.id = 'game-area';
                     gameArea.innerHTML = `
                         <div id="scoreDisplay">Score: 0</div>
                         <div id="timerDisplay">Time: 60</div>
                         <div id="questionDisplay"></div>
-                        <div id="button A"></div>
-                        <div id="button B"></div>
-                        <div id="button C"></div>
-                        <div id="button D"></div>
+                        <div id="button A">
+                            <button id="button A"></button>
+                            </div>
+                        <div id="button B">
+                            <button id="button B"></button>
+                            </div>
+                        <div id="button C">
+                            <button id="button C"></button>
+                            </div>
+                        <div id="button D">
+                            <button id="button D"></button>
+                            </div>
                         <div id="game-over" style="display:none;">Game Over! Your final score is <span id="finalScore"></span></div>
                         <div id="leaderboard">
                             <h3>Leaderboard</h3>
