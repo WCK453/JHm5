@@ -47,14 +47,16 @@
                 padding: 10px 15px;
                 font-size: 18px;
                 margin: 5px;
-                background-color: #f1f1f1;
-                border: 2px solid #ccc;
+                background-color: #008cba;
+                color: white;
+                border: none;
                 border-radius: 5px;
                 cursor: pointer;
             }
             #button A:hover, #button B:hover, #button C:hover, #button D:hover {
-                background-color: #ddd;
+                background-color: #007bb5;
             }
+           
             #game-over {
                 font-size: 24px;
                 color: red;
@@ -102,26 +104,84 @@
 
                 document.body.style.backgroundColor = '#ffffff';
                 function startGame() {
+                    document.getElementById('start-button').style.display = 'none';
+                    document.getElementById('game-description').style.display = 'none';
+                    document.getElementById('how-to-play').style.display = 'none';
                     const gameArea = document.createElement('div');
                     gameArea.id = 'game-area';
                     gameArea.innerHTML = `
                         <div id="scoreDisplay">Score: 0</div>
-                        <div id="timerDisplay">Time: 60s</div>
+                        <div id="timerDisplay">Time: 60</div>
                         <div id="questionDisplay"></div>
-                        <div id="button">
-                            <button id="optionA"></button>
-                            <button id="optionB"></button>
-                            <button id="optionC"></button>
-                            <button id="optionD"></button>
-                        </div>
-                        <div id="game-over" style="display:none;">Game Over! Your final score is: <span id="finalScore"></span></div>
+                        <div id="button A"></div>
+                        <div id="button B"></div>
+                        <div id="button C"></div>
+                        <div id="button D"></div>
+                        <div id="game-over" style="display:none;">Game Over! Your final score is <span id="finalScore"></span></div>
                         <div id="leaderboard">
                             <h3>Leaderboard</h3>
                             <ul id="leaderboardList"></ul>
                         </div>
                     `;
                     document.body.appendChild(gameArea);
-                    // Additional game logic would go here
+                    let score = 0;
+                    let timeLeft = 60;
+                    let timerInterval;
+                    function generateQuestion() {
+                        const num1 = Math.floor(Math.random() * 10) + 1;
+                        const num2 = Math.floor(Math.random() * 10) + 1;
+                        const correctAnswer = num1 + num2;
+                        const answers = [correctAnswer];
+                        while (answers.length < 4) {
+                            const wrongAnswer = Math.floor(Math.random() * 20) + 1;
+                            if (!answers.includes(wrongAnswer)) {
+                                answers.push(wrongAnswer);
+                            }
+                        }
+                        answers.sort(() => Math.random() - 0.5);
+                        document.getElementById('questionDisplay').innerText = `What is ${num1} + ${num2}?`;
+                        ['A', 'B', 'C', 'D'].forEach((label, index) => {
+                            const button = document.getElementById(`button ${label}`);
+                            button.innerText = answers[index];
+                            button.onclick = () => {
+                                if (answers[index] === correctAnswer) {
+                                    score += 10;
+                                    document.getElementById('scoreDisplay').innerText = `Score: ${score}`;
+                                } else {
+                                    timeLeft -= 5;
+                                    if (timeLeft < 0) timeLeft = 0;
+                                    document.getElementById('timerDisplay').innerText = `Time: ${timeLeft}`;
+                                }
+                                generateQuestion();
+                            };
+                        });
+                    }
+                    function startTimer() {
+                        timerInterval = setInterval(() => {
+                            timeLeft--;
+                            document.getElementById('timerDisplay').innerText = `Time: ${timeLeft}`;
+                            if (timeLeft <= 0) {
+                                clearInterval(timerInterval);
+                                endGame();
+                            }
+                        }, 1000);
+                    }
+                    function endGame() {
+                        document.getElementById('game-over').style.display = 'block';
+                        document.getElementById('finalScore').innerText = score;
+                        ['A', 'B', 'C', 'D'].forEach(label => {
+                            document.getElementById(`button ${label}`).style.display = 'none';
+                        });
+                        updateLeaderboard(score);
+                    }
+                    function updateLeaderboard(finalScore) {
+                        const leaderboardList = document.getElementById('leaderboardList');
+                        const listItem = document.createElement('li');
+                        listItem.innerText = `Score: ${finalScore}`;
+                        leaderboardList.appendChild(listItem);
+                    }
+                    generateQuestion();
+                    startTimer();
                 }
                 startGame();
             });
