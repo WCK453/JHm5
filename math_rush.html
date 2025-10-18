@@ -58,9 +58,14 @@
         </main>
         <script>
             document.getElementById('start-button').addEventListener('click', function() {
-                delete body.firstChild;
+                startGame();
+
                 document.body.style.backgroundColor = '#ffffff';
                 function startGame() {
+                    delete document.getElementById('game-description');
+                    delete document.getElementById('how-to-play');
+                    delete document.getElementById('start-game');
+                    
                     let score = 0;
                     let timeLeft = 60; // seconds
                     const gameArea = document.createElement('div');
@@ -75,7 +80,7 @@
                     document.getElementById('button B');innerText = createAnswerOptions;
                     document.getElementById('button C');innerText = createAnswerOptions;
                     document.getElementById('button D');innerText = createAnswerOptions;
-                    
+
                     scoreDisplay.innerText = `Score: ${score}`;
                     timerDisplay.innerText = `Time Left: ${timeLeft}s`;
                     gameArea.appendChild(scoreDisplay);
@@ -87,7 +92,7 @@
                     function generateQuestion() {
                         const num1 = Math.floor(Math.random() * 10) + 1;
                         const num2 = Math.floor(Math.random() * 10) + 1;
-                        questionDisplay.innerText = `What is ${num1} + ${num2}?`;
+                        questionDisplay.innerText = `${num1} + ${num2}`;
                         return num1 + num2;
                     }
                     function createAnswerOptions() {
@@ -126,7 +131,6 @@
                         }
                     }, 1000);
                 }
-                startGame();
             });    
             </script>
     </body>
