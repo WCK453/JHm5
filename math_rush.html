@@ -58,7 +58,7 @@
         </main>
         <script>
             document.getElementById('start-button').addEventListener('click', function() {
-                alert('Game Started! Get ready to solve some math problems!');
+                switchscreen('game-screen');
                 // Start the timer logic here
                 function startTimer() {
                     let timeLeft = 60; // 60 seconds for the game
@@ -174,13 +174,19 @@
             });
 
         </script>
-         <button id="Choice_A">
-         </button>
-         <button id="Choice_B">
-            </button>
-            <button id="Choice_C">
-            </button>
-            <button id="Choice_D">
-            </button>
+        <section id="timer">
+            <h2>Time Left: <span id="timer"></span> seconds    Score: <span id="score"></span> </h2>
+        <section id="math-problem">
+            <script>
+                function displayProblem() {
+                    const problemElement = document.getElementById("math-problem");
+                    const mathProblem = generateMathProblem();
+                    problemElement.innerHTML = mathProblem.problem;
+                }
+                displayProblem();
+                </script>
+        </section>
+        <button id="Choice_A"></button> <button id="Choice_B"></button>    
+            <button id="Choice_C"></button> <button id="Choice_D"></button>
     </body>
 </html>
