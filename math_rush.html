@@ -61,167 +61,106 @@
                 document.getElementById('game-description').style.display = 'none';
                 document.getElementById('how-to-play').style.display = 'none';
                 document.getElementById('start-game').style.display = 'none';
-                document.getElementById('game-screen').style.display = 'block';
-                document.getElementById('timer').style.display = 'block';
-                document.getElementById('score').style.display = 'block';
-                document.getElementById('math-problem').style.display = 'block';
-                document.getElementById('Choice_A').style.display = 'inline-block';
-                document.getElementById('Choice_B').style.display = 'inline-block';
-                document.getElementById('Choice_C').style.display = 'inline-block';
-                document.getElementById('Choice_D').style.display = 'inline-block';
-                function startTimer() {
-                    let timeLeft = 60; // 60 seconds timer
-                    const timerInterval = setInterval(() => {
-                        if (timeLeft <= 0) {
-                            clearInterval(timerInterval);
-                            alert('Time is up! Game over.');
-                        } else {
-                            console.log(`Time left: ${timeLeft} seconds`);
-                            timeLeft--;
-                        }
-                    }, 1000);
-                }
-                startTimer();
-                // Here you can add the logic to start the game
-            function generateMathProblem() {
-                const num1 = Math.floor(Math.random() * 10) + 1;
-                const num2 = Math.floor(Math.random() * 10) + 1;
-                const operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
-                let answer;
-                switch (operator) {
-                    case '+':
-                        answer = num1 + num2;
-                        break;
-                    case '-':
-                        answer = num1 - num2;
-                        break;
-                    case '*':
-                        answer = num1 * num2;
-                        break;
-                }
-                return { problem: `${num1} ${operator} ${num2}`, answer: answer };
-            }
-            let answerchoices;
-            function presentProblem() {
-                const mathProblem = generateMathProblem();
-                document.getElementById("math-problem").innerHTML = mathProblem.problem;
-                return mathProblem.answer;
-            }
-            function generateanswerchoices(correctAnswer) {
-                answerchoices = [];
-                answerchoices.push(correctAnswer);
-                while (answerchoices.length < 4) {
-                    const wrongAnswer = Math.floor(Math.random() * 81); // Random wrong answer between 0 and 80
-                    if (!answerchoices.includes(wrongAnswer)) {
-                        answerchoices.push(wrongAnswer);
+                document.presentProblem = function() {
+                    const problemContainer = document.createElement('div');
+                    problemContainer.id = 'math-problem';
+                    document.body.appendChild(problemContainer);
+
+                    const timerContainer = document.createElement('div');
+                    timerContainer.id = 'timer-container';
+                    document.body.appendChild(timerContainer);
+
+                    const choicesContainer = document.createElement('div');
+                    choicesContainer.id = 'choices-container';
+                    document.body.appendChild(choicesContainer);
+
+                    const scoreContainer = document.createElement('div');
+                    scoreContainer.id = 'score-container';
+                    document.body.appendChild(scoreContainer);
+
+                    for (let i = 0; i < 4; i++) {
+                        const choiceButton = document.createElement('button');
+                        choiceButton.id = `Choice_${String.fromCharCode(65 + i)}`;
+                        choiceButton.style.margin = '10px';
+                        choicesContainer.appendChild(choiceButton);
                     }
-                }
-            }
-            function randomizeanswerchoices() {
-                for (let i = answerchoices.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [answerchoices[i], answerchoices[j]] = [answerchoices[j], answerchoices[i]];
-                }
-            }
-                       const correctAnswer = presentProblem();
-            generateanswerchoices(correctAnswer);
-            randomizeanswerchoices();
-            document.getElementById("Choice_A").innerHTML = answerchoices[0];
-            document.getElementById("Choice_B").innerHTML = answerchoices[1];
-            document.getElementById("Choice_C").innerHTML = answerchoices[2];
-            document.getElementById("Choice_D").innerHTML = answerchoices[3];
-            });
-            let score = 0;
-            text = "score: " + score + "!";
-            function checkAnswer(selectedAnswer) {
-                if (selectedAnswer == correctAnswer) {
-                    score += 1;
-                    console.log(`Current Score: ${score}`);
-                } else {
-                    score += 0;
-                }
-                console.log(`Current Score: ${score}`);
-                function presentProblem() {
-                    const mathProblem = generateMathProblem();
+                    return problemContainer;
+                };
+                document.displayProblem = function(mathProblem) {
                     document.getElementById("math-problem").innerHTML = mathProblem.problem;
-                    return mathProblem.answer;
-                }
-                const correctAnswer = presentProblem();
-            generateanswerchoices(correctAnswer);
-            randomizeanswerchoices();
-            document.getElementById("Choice_A").innerHTML = answerchoices[0];
-            document.getElementById("Choice_B").innerHTML = answerchoices[1];
-            document.getElementById("Choice_C").innerHTML = answerchoices[2];
-            document.getElementById("Choice_D").innerHTML = answerchoices[3];
+                    document.getElementById("timer-container").innerHTML = "Time Left: 60 seconds";
+                    document.getElementById("choices-container").innerHTML = `
+                        <button id="Choice_A"></button>
+                        <button id="Choice_B"></button>
+                        <button id="Choice_C"></button>
+                        <button id="Choice_D"></button>
+                    `
+                    document.getElementById("score-container").innerHTML = "Score: 0";
+                };
+                function startGame() {
+                    const problemContainer = document.presentProblem();
+                    const mathProblem = {
+                        problem: function generateProblem() {
+                            const num1 = Math.floor(Math.random() * 10) + 1;
+                            const num2 = Math.floor(Math.random() * 10) + 1;
+                            return `${num1} + ${num2} = ?`;
+                        }(),
+                        choice: function generateChoices() {
+                        const choiceButtons = [
+                                document.getElementById('Choice_A'),
+                                document.getElementById('Choice_B'),
+                                document.getElementById('Choice_C'),
+                                document.getElementById('Choice_D')
+                            ];
+                            const correctAnswer = eval(choiceButtons[0].innerText = mathProblem.problem.replace('= ?', ''));
+                            const choices = new Set();
+                            choices.add(correctAnswer);
+                            while (choices.size < 4) {
+                                const wrongAnswer = correctAnswer + Math.floor(Math.random() * 10) - 5;
+                                choices.add(wrongAnswer);
+                            }
+                            return Array.from(choices).sort(() => Math.random() - 0.5);
+                        }()
+                    };
+                    document.displayProblem(mathProblem);
+                    mathProblem.choice.forEach((choice, index) => {
+                        choiceButtons[index].innerText = choice;
+                    });
+                    delete mathProblem.choice;
+                    delete mathProblem.problem;
+                    function generateProblem() {
+                        const num1 = Math.floor(Math.random() * 10) + 1;
+                        const num2 = Math.floor(Math.random() * 10) + 1;
+                        return `${num1} + ${num2} = ?`;
+                    }
+                    timer: function startTimer(duration, display) {
+                        let timer = duration, seconds;
+                        let duration = 60;
+                        const interval = setInterval(function () {
+                            seconds = parseInt(timer % 60, 10);
 
-                let timer = 60; // Example time left
-                do {
-                    updateTimer(timer);
-                } 
-                while (timer >= 0);
-            function updateTimer(timer) {
-                if (timer > 0) {
-                    timer -= 1;
-                }
+                            display.textContent = "Time Left: " + seconds + " seconds";
 
+                            if (--timer <= 0) {
+                                clearInterval(interval);
+                                
+                            }
+                        }, 1000);
+                        score: function updateScore(points) {
+                            let score = 0;
+                            if (choice === correctAnswer) {
+                                points = +1;
+                            } else {
+                                points = +0;
+                            }
+                            score += points;
+                            document.getElementById("score-container").innerHTML = "Score: " + score;
+                
+                }
+                startGame();
             }
-                if (timer = 0) {
-                    alert("Game Over! Your final score is: " + score);
-                }
-            }
-            this.document.getElementById("Choice_A").addEventListener("click", function() {
-                checkAnswer(answerchoices[0]);
-            });
-            this.document.getElementById("Choice_B").addEventListener("click", function() {
-                checkAnswer(answerchoices[1]);
-            });
-            this.document.getElementById("Choice_C").addEventListener("click", function() {
-                checkAnswer(answerchoices[2]);
-            });
-            this.document.getElementById("Choice_D").addEventListener("click", function() {
-                checkAnswer(answerchoices[3]);
-            });
-
-        </script>
-        <game-screen>
-            <style> 
-                #game-screen {
-                    display: none;
-                    text-align: center;
-                    padding: 20px;
-                }
-                #math-problem {
-                    font-size: 24px;
-                    margin-bottom: 20px;
-                }
-                #Choice_A, #Choice_B, #Choice_C, #Choice_D {
-                    margin: 10px;
-                    padding: 10px 20px;
-                    font-size: 16px;
-                    background-color: #008cba;
-                    color: white;
-                    border: none;
-                    border-radius: 5px;
-                    cursor: pointer;
-                }
-                #Choice_A:hover, #Choice_B:hover, #Choice_C:hover, #Choice_D:hover {
-                    background-color: #007bb5;
-                }
-            </style>
-        </game-screen>>
-        <section id="timer">
-            <h2>Time Left: <span id="timer"></span> seconds    Score: <span id="score"></span> </h2>
-        <section id="math-problem">
-            <script>
-                function displayProblem() {
-                    const problemElement = document.getElementById("math-problem");
-                    const mathProblem = generateMathProblem();
-                    problemElement.innerHTML = mathProblem.problem;
-                }
-                displayProblem();
-                </script>
-        </section>
-        <button id="Choice_A"></button> <button id="Choice_B"></button>    
-            <button id="Choice_C"></button> <button id="Choice_D"></button>
+        }
+    });    
+            </script>
     </body>
 </html>
