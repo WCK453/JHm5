@@ -1,4 +1,4 @@
-<html>
+<html lang="CH_TW">
     <head>
         <title>Math Rush</title>
         <style>
@@ -58,10 +58,19 @@
         </main>
         <script>
             document.getElementById('start-button').addEventListener('click', function() {
-                switchscreen('game-screen');
-                // Start the timer logic here
+                document.getElementById('game-description').style.display = 'none';
+                document.getElementById('how-to-play').style.display = 'none';
+                document.getElementById('start-game').style.display = 'none';
+                document.getElementById('game-screen').style.display = 'block';
+                document.getElementById('timer').style.display = 'block';
+                document.getElementById('score').style.display = 'block';
+                document.getElementById('math-problem').style.display = 'block';
+                document.getElementById('Choice_A').style.display = 'inline-block';
+                document.getElementById('Choice_B').style.display = 'inline-block';
+                document.getElementById('Choice_C').style.display = 'inline-block';
+                document.getElementById('Choice_D').style.display = 'inline-block';
                 function startTimer() {
-                    let timeLeft = 60; // 60 seconds for the game
+                    let timeLeft = 60; // 60 seconds timer
                     const timerInterval = setInterval(() => {
                         if (timeLeft <= 0) {
                             clearInterval(timerInterval);
@@ -175,7 +184,7 @@
 
         </script>
         <game-screen>
-            <style>
+            <style> 
                 #game-screen {
                     display: none;
                     text-align: center;
