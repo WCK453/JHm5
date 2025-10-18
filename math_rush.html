@@ -58,14 +58,13 @@
         </main>
         <script>
             document.getElementById('start-button').addEventListener('click', function() {
-                startGame();
 
                 document.body.style.backgroundColor = '#ffffff';
                 function startGame() {
                     delete document.getElementById('game-description');
                     delete document.getElementById('how-to-play');
                     delete document.getElementById('start-game');
-                    
+
                     let score = 0;
                     let timeLeft = 60; // seconds
                     const gameArea = document.createElement('div');
@@ -110,17 +109,43 @@
                     
                     let correctAnswer = generateQuestion();
                     
-                    answerInput.addEventListener('keydown', function(event) {
-                        if (event.key === 'Enter') {
-                            if (parseInt(answerInput.value) === correctAnswer) {
-                                score += 10;
-                                scoreDisplay.innerText = `Score: ${score}`;
-                            }
-                            answerInput.value = '';
+                    answeroptionA.addEventListener('click', function() {
+                        if (parseInt(this.innerText) === correctAnswer) {
+                            score += 10;
+                            scoreDisplay.innerText = `Score: ${score}`;
                             correctAnswer = generateQuestion();
+                        } else {
+                            timeLeft -= 0;
                         }
                     });
-                    
+                    answeroptionB.addEventListener('click', function() {
+                        if (parseInt(this.innerText) === correctAnswer) {
+                            score += 10;
+                            scoreDisplay.innerText = `Score: ${score}`;
+                            correctAnswer = generateQuestion();
+                        } else {
+                            timeLeft -= 0;
+                        }
+                    });
+                    answeroptionC.addEventListener('click', function() {
+                        if (parseInt(this.innerText) === correctAnswer) {
+                            score += 10;
+                            scoreDisplay.innerText = `Score: ${score}`;
+                            correctAnswer = generateQuestion();
+                        } else {
+                            timeLeft -= 0;
+                        }
+                    });
+                    answeroptionD.addEventListener('click', function() {
+                        if (parseInt(this.innerText) === correctAnswer) {
+                            score += 10;
+                            scoreDisplay.innerText = `Score: ${score}`;
+                            correctAnswer = generateQuestion();
+                        } else {
+                            timeLeft -= 0;
+                        }
+                    });
+
                     const timerInterval = setInterval(function() {
                         timeLeft--;
                         timerDisplay.innerText = `Time Left: ${timeLeft}s`;
@@ -131,7 +156,8 @@
                         }
                     }, 1000);
                 }
-            });    
+            });
+            startGame();
             </script>
     </body>
 </html>
