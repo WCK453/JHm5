@@ -101,12 +101,12 @@
         </main>
         <script>
             document.getElementById('start-button').addEventListener('click', function() {
-
                 document.body.style.backgroundColor = '#ffffff';
                 function startGame() {
-                    document.getElementById('start-button').style.display = 'none';
-                    document.getElementById('game-description').style.display = 'none';
-                    document.getElementById('how-to-play').style.display = 'none';
+                    document.getElementById('start-button').style.display = 'remove';
+                    document.getElementById('game-description').style.display = 'remove';
+                    document.getElementById('how-to-play').style.display = 'remove';
+                    document.getElementById('start-game').style.display = 'remove';
                     const gameArea = document.createElement('div');
                     gameArea.id = 'game-area';
                     gameArea.innerHTML = `
