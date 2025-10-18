@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>Math Rush</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f8ff;
+                margin: 0;
+                padding: 0;
+            }
+            header, footer {
+                background-color: #4682b4;
+                color: white;
+                text-align: center;
+                padding: 1em 0;
+            }
+            main {
+                padding: 20px;
+            }
+            h1, h2 {
+                margin: 0.5em 0;
+            }
+            #start-button {
+                padding: 10px 20px;
+                font-size: 16px;
+                background-color: #4caf50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            #start-button:hover {
+                background-color: #45a049;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>Welcome to Math Rush!</h1>
+        </header>
+        <main>
+            <section id="game-description">
+                <h2>About the Game</h2>
+                <p>Math Rush is an exciting and fast-paced game that challenges your arithmetic skills. Solve as many math problems as you can before time runs out!</p>
+            </section>
+            <section id="how-to-play">
+                <h2>How to Play</h2>
+                <ol>
+                    <li>Start the game by clicking the "Start" button.</li>
+                    <li>Solve the math problems that appear on the screen as quickly as possible.</li>
+                    <li>Each correct answer earns you points, while incorrect answers will cost you time.</li>
+                    <li>The game ends when the timer reaches zero. Try to beat your high score!</li>
+                </ol>
+            </section>
+            <section id="start-game">
+                <button id="start-button">Start Game</button>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 Math Rush. All rights reserved.</p>
+        </footer>
+        <script>
+            document.getElementById('start-button').addEventListener('click', function() {
+                alert('Game Started! Get ready to solve some math problems!');
+                // Here you can add the logic to start the game
+            });
+        </script>
+         
+    </body>
+</html>
