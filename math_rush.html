@@ -56,15 +56,131 @@
                 <button id="start-button">Start Game</button>
             </section>
         </main>
-        <footer>
-            <p>&copy; 2024 Math Rush. All rights reserved.</p>
-        </footer>
         <script>
             document.getElementById('start-button').addEventListener('click', function() {
                 alert('Game Started! Get ready to solve some math problems!');
+                // Start the timer logic here
+                function startTimer() {
+                    let timeLeft = 60; // 60 seconds for the game
+                    const timerInterval = setInterval(() => {
+                        if (timeLeft <= 0) {
+                            clearInterval(timerInterval);
+                            alert('Time is up! Game over.');
+                        } else {
+                            console.log(`Time left: ${timeLeft} seconds`);
+                            timeLeft--;
+                        }
+                    }, 1000);
+                }
+                startTimer();
                 // Here you can add the logic to start the game
+            function generateMathProblem() {
+                const num1 = Math.floor(Math.random() * 10) + 1;
+                const num2 = Math.floor(Math.random() * 10) + 1;
+                const operator = ['+', '-', '*'][Math.floor(Math.random() * 3)];
+                let answer;
+                switch (operator) {
+                    case '+':
+                        answer = num1 + num2;
+                        break;
+                    case '-':
+                        answer = num1 - num2;
+                        break;
+                    case '*':
+                        answer = num1 * num2;
+                        break;
+                }
+                return { problem: `${num1} ${operator} ${num2}`, answer: answer };
+            }
+            let answerchoices;
+            function presentProblem() {
+                const mathProblem = generateMathProblem();
+                document.getElementById("math-problem").innerHTML = mathProblem.problem;
+                return mathProblem.answer;
+            }
+            function generateanswerchoices(correctAnswer) {
+                answerchoices = [];
+                answerchoices.push(correctAnswer);
+                while (answerchoices.length < 4) {
+                    const wrongAnswer = Math.floor(Math.random() * 81); // Random wrong answer between 0 and 80
+                    if (!answerchoices.includes(wrongAnswer)) {
+                        answerchoices.push(wrongAnswer);
+                    }
+                }
+            }
+            function randomizeanswerchoices() {
+                for (let i = answerchoices.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [answerchoices[i], answerchoices[j]] = [answerchoices[j], answerchoices[i]];
+                }
+            }
+                       const correctAnswer = presentProblem();
+            generateanswerchoices(correctAnswer);
+            randomizeanswerchoices();
+            document.getElementById("Choice_A").innerHTML = answerchoices[0];
+            document.getElementById("Choice_B").innerHTML = answerchoices[1];
+            document.getElementById("Choice_C").innerHTML = answerchoices[2];
+            document.getElementById("Choice_D").innerHTML = answerchoices[3];
             });
+            let score = 0;
+            text = "score: " + score + "!";
+            function checkAnswer(selectedAnswer) {
+                if (selectedAnswer == correctAnswer) {
+                    score += 1;
+                    console.log(`Current Score: ${score}`);
+                } else {
+                    score += 0;
+                }
+                console.log(`Current Score: ${score}`);
+                function presentProblem() {
+                    const mathProblem = generateMathProblem();
+                    document.getElementById("math-problem").innerHTML = mathProblem.problem;
+                    return mathProblem.answer;
+                }
+                const correctAnswer = presentProblem();
+            generateanswerchoices(correctAnswer);
+            randomizeanswerchoices();
+            document.getElementById("Choice_A").innerHTML = answerchoices[0];
+            document.getElementById("Choice_B").innerHTML = answerchoices[1];
+            document.getElementById("Choice_C").innerHTML = answerchoices[2];
+            document.getElementById("Choice_D").innerHTML = answerchoices[3];
+
+                let timer = 60; // Example time left
+                do {
+                    updateTimer(timer);
+                } 
+                while (timer >= 0);
+            function updateTimer(timer) {
+                if (timer > 0) {
+                    timer -= 1;
+                }
+
+            }
+                if (timer = 0) {
+                    alert("Game Over! Your final score is: " + score);
+                }
+            }
+            this.document.getElementById("Choice_A").addEventListener("click", function() {
+                checkAnswer(answerchoices[0]);
+            });
+            this.document.getElementById("Choice_B").addEventListener("click", function() {
+                checkAnswer(answerchoices[1]);
+            });
+            this.document.getElementById("Choice_C").addEventListener("click", function() {
+                checkAnswer(answerchoices[2]);
+            });
+            this.document.getElementById("Choice_D").addEventListener("click", function() {
+                checkAnswer(answerchoices[3]);
+            });
+
         </script>
-         
+         <button id="Choice_A">
+         </button>
+         <button id="Choice_B">
+            </button>
+            <button id="Choice_C">
+            </button>
+            <button id="Choice_D">
+            </button>
     </body>
 </html>
