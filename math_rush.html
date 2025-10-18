@@ -58,9 +58,7 @@
         </main>
         <script>
             document.getElementById('start-button').addEventListener('click', function() {
-                delete document.getElementById('game-description');
-                delete document.getElementById('how-to-play');
-                delete document.getElementById('start-button');
+                delete body.firstChild;
                 document.body.style.backgroundColor = '#ffffff';
                 function startGame() {
                     let score = 0;
@@ -69,10 +67,15 @@
                     const scoreDisplay = document.createElement('div');
                     const timerDisplay = document.createElement('div');
                     const questionDisplay = document.createElement('div');
-                    const answerInput = document.createElement('input');
-                    answerInput.type = 'number';
-                    answerInput.placeholder = 'Enter your answer';
-
+                    const answeroptionA = document.createElement('button A');
+                    const answeroptionB = document.createElement('button B');
+                    const answeroptionC = document.createElement('button C');
+                    const answeroptionD = document.createElement('button D');
+                    document.getElementById('button A');innerText = createAnswerOptions;
+                    document.getElementById('button B');innerText = createAnswerOptions;
+                    document.getElementById('button C');innerText = createAnswerOptions;
+                    document.getElementById('button D');innerText = createAnswerOptions;
+                    
                     scoreDisplay.innerText = `Score: ${score}`;
                     timerDisplay.innerText = `Time Left: ${timeLeft}s`;
                     gameArea.appendChild(scoreDisplay);
@@ -86,6 +89,18 @@
                         const num2 = Math.floor(Math.random() * 10) + 1;
                         questionDisplay.innerText = `What is ${num1} + ${num2}?`;
                         return num1 + num2;
+                    }
+                    function createAnswerOptions() {
+                        const options = [];
+                        const correctAnswer = generateQuestion();
+                        options.push(correctAnswer);
+                        while (options.length < 4) {
+                            const wrongAnswer = Math.floor(Math.random() * 20) + 1;
+                            if (!options.includes(wrongAnswer)) {
+                                options.push(wrongAnswer);
+                            }
+                        }
+                        return options.sort(() => Math.random() - 0.5);
                     }
                     
                     let correctAnswer = generateQuestion();
