@@ -102,136 +102,29 @@
 
                 document.body.style.backgroundColor = '#ffffff';
                 function startGame() {
-                    let score = 0;
-                    let timeLeft = 60; // seconds
                     const gameArea = document.createElement('div');
-                    const scoreDisplay = document.createElement('div');
-                    const timerDisplay = document.createElement('div');
-                    const questionDisplay = document.createElement('div');
-                    const answeroptionA = document.createElement('button A');
-                    const answeroptionB = document.createElement('button B');
-                    const answeroptionC = document.createElement('button C');
-                    const answeroptionD = document.createElement('button D');
-                    document.getElementById('button A');innerText = createAnswerOptions;
-                    document.getElementById('button B');innerText = createAnswerOptions;
-                    document.getElementById('button C');innerText = createAnswerOptions;
-                    document.getElementById('button D');innerText = createAnswerOptions;
-
-                    scoreDisplay.innerText = `Score: ${score}`;
-                    timerDisplay.innerText = `Time Left: ${timeLeft}s`;
-                    gameArea.appendChild(scoreDisplay);
-                    gameArea.appendChild(timerDisplay);
-                    gameArea.appendChild(questionDisplay);
-                    gameArea.appendChild(answerInput);
+                    gameArea.id = 'game-area';
+                    gameArea.innerHTML = `
+                        <div id="scoreDisplay">Score: 0</div>
+                        <div id="timerDisplay">Time: 60s</div>
+                        <div id="questionDisplay"></div>
+                        <div id="button">
+                            <button id="optionA"></button>
+                            <button id="optionB"></button>
+                            <button id="optionC"></button>
+                            <button id="optionD"></button>
+                        </div>
+                        <div id="game-over" style="display:none;">Game Over! Your final score is: <span id="finalScore"></span></div>
+                        <div id="leaderboard">
+                            <h3>Leaderboard</h3>
+                            <ul id="leaderboardList"></ul>
+                        </div>
+                    `;
                     document.body.appendChild(gameArea);
-                    
-                    function generateQuestion() {
-                        const num1 = Math.floor(Math.random() * 10) + 1;
-                        const num2 = Math.floor(Math.random() * 10) + 1;
-                        questionDisplay.innerText = `${num1} + ${num2}`;
-                        return num1 + num2;
-                    }
-                    function createAnswerOptions() {
-                        const options = [];
-                        const correctAnswer = generateQuestion();
-                        options.push(correctAnswer);
-                        while (options.length < 4) {
-                            const wrongAnswer = Math.floor(Math.random() * 20) + 1;
-                            if (!options.includes(wrongAnswer)) {
-                                options.push(wrongAnswer);
-                            }
-                        }
-                        return options.sort(() => Math.random() - 0.5);
-                    }
-                    
-                    let correctAnswer = generateQuestion();
-                    
-                    answeroptionA.addEventListener('click', function() {
-                        if (parseInt(this.innerText) === correctAnswer) {
-                            score += 10;
-                            scoreDisplay.innerText = `Score: ${score}`;
-                            correctAnswer = generateQuestion();
-                        } else {
-                            timeLeft -= 0;
-                        }
-                    });
-                    answeroptionB.addEventListener('click', function() {
-                        if (parseInt(this.innerText) === correctAnswer) {
-                            score += 10;
-                            scoreDisplay.innerText = `Score: ${score}`;
-                            correctAnswer = generateQuestion();
-                        } else {
-                            timeLeft -= 0;
-                        }
-                    });
-                    answeroptionC.addEventListener('click', function() {
-                        if (parseInt(this.innerText) === correctAnswer) {
-                            score += 10;
-                            scoreDisplay.innerText = `Score: ${score}`;
-                            correctAnswer = generateQuestion();
-                        } else {
-                            timeLeft -= 0;
-                        }
-                    });
-                    answeroptionD.addEventListener('click', function() {
-                        if (parseInt(this.innerText) === correctAnswer) {
-                            score += 10;
-                            scoreDisplay.innerText = `Score: ${score}`;
-                            correctAnswer = generateQuestion();
-                        } else {
-                            timeLeft -= 0;
-                        }
-                    });
-                    function gameOver() {
-                        alert(`Game Over! Your final score is: ${score}`);
-                        location.reload();
-                    }
-                    function updateTimer() {
-                        timeLeft--;
-                        timerDisplay.innerText = `Time Left: ${timeLeft}s`;
-                        if (timeLeft <= 0) {
-                            gameOver();
-                        }
-                    }
-                    function endGame() {
-                        clearInterval(timerInterval);
-                        gameOver();
-                    }
-                    function resetGame() {
-                        score = 0;
-                        timeLeft = 60;
-                        scoreDisplay.innerText = `Score: ${score}`;
-                        timerDisplay.innerText = `Time Left: ${timeLeft}s`;
-                        correctAnswer = generateQuestion();
-                    }
-                    function restartGame() {
-                        resetGame();
-                        startGame();
-                    }
-                    function leaderboard() {
-                        const leaderboardSection = document.createElement('div');
-                        leaderboardSection.id = 'leaderboard';
-                        const leaderboardTitle = document.createElement('h3');
-                        leaderboardTitle.innerText = 'Leaderboard';
-                        const leaderboardList = document.createElement('ul');
-                        leaderboardSection.appendChild(leaderboardTitle);
-                        leaderboardSection.appendChild(leaderboardList);
-                        document.body.appendChild(leaderboardSection);
-                    }
-
-                    const timerInterval = setInterval(function() {
-                        timeLeft--;
-                        timerDisplay.innerText = `Time Left: ${timeLeft}s`;
-                        if (timeLeft <= 0) {
-                            clearInterval(timerInterval);
-                            alert(`Game Over! Your final score is: ${score}`);
-                            location.reload();
-                        }
-                    }, 1000);
+                    // Additional game logic would go here
                 }
+                startGame();
             });
-            startGame();
-
             </script>
         
     </body>
